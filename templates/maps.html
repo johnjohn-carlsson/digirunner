@@ -1,0 +1,44 @@
+{% extends "basetemplate.html" %}
+
+{% block content %}
+ 
+<!-- Main content -->
+<section class="main-content">
+    <table class="maps-table" style="margin: 0 auto;">
+        <thead>
+            <tr>
+                <th>
+                    <a href="{{url_for('maps.wow')}}" style="color:#feffef">World of Warcraft</a>
+                </th>
+                <th>
+                    <a href="" style="color:#feffef">Lord of the Rings</a>
+                </th>
+                <th>
+                    <a href="" style="color:#feffef">Borderlands</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <a href="{{url_for('maps.wow')}}">
+                        <img src="/static/images/fullmap.png" alt="" class="map-img">
+                    </a>
+                </td>
+                <td>
+                    <a href="">
+                        <img src="/static/images/middle_earth.jpg" alt="" class="map-img">
+                    </a>
+                </td>
+                <td>
+                    <a href="">
+                        <img src="/static/images/borderlands_map.png" alt="" class="map-img">
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</section>
+
+{% endblock %}

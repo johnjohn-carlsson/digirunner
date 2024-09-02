@@ -1,0 +1,126 @@
+body {
+    font-family: 'Bebas Neue', sans-serif;
+    background-color: #0b1d2e;
+}
+
+a {
+    color: #0b1d2e;
+    text-decoration: none; /* Remove underline if desired */
+}
+
+/* Optional: Change color when hovering over the link */
+a:hover {
+    color: 
+    #59c5bf; /* Change this to your desired hover color */
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #feffef;
+    font-size: 50px;
+}
+
+.header img {
+    max-width: 150px;
+    height: auto;
+}
+
+.links-area {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.links-area a {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.main-content {
+    min-height: 80dvh;
+    background-color: #0b1d2e;
+}
+
+.map-img {
+    width: 400px;
+    height: 250px;
+    padding: 0 10px 0 10px;
+}
+
+.maps-table th {
+    padding: 20px 0 20px 0;
+    font-size: 30px;
+}
+
+.login-page {
+    color: #feffef;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers content horizontally */
+    text-align: center;
+    font-size: 25px;
+}
+
+.login-page .form-control {
+    width: 100%;        /* Make the input take full width of its container */
+    padding: 12px 20px; /* Increase padding to make input boxes bigger */
+    font-size: 16px;    /* Increase font size */
+    border-radius: 5px; /* Optional: Add border radius for rounded corners */
+    box-sizing: border-box; /* Ensures padding doesn't affect the total width */
+}
+
+.homepage {
+    color: #feffef;
+}
+
+.index-greeting {
+    font-size: 25px;
+    padding-left: 40px;
+}
+
+.custom-button-1 {
+    background-color: #feffef;
+    color:#0b1d2e;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+.custom-button-1:hover {
+    color: #59c5bf;
+}
+
+.register-section {
+    color: #feffef;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers content horizontally */
+    text-align: center;
+    font-size: 25px;
+}
+
+.register-section .form-group input[type="text"],
+.register-section .form-group input[type="email"],
+.register-section .form-group input[type="password"] {
+    width: 50%;        /* Make the input take full width of its container */
+    padding: 12px 20px; /* Increase padding to make input boxes bigger */
+    font-size: 16px;    /* Increase font size */
+    border-radius: 5px; /* Optional: Add border radius for rounded corners */
+    box-sizing: border-box; /* Ensures padding doesn't affect the total width */
+}
+
+.centered-table-title {
+    text-align: center;
+}
+
+.token-table img {
+    width: 75px;
+    height: 75px;
+}
+
+.footer {
+    background-color: #feffef;
+    padding: 20px 0 20px 0;
+    text-align: center;
+}
