@@ -6,6 +6,7 @@ from routes.index import indexBluePrint
 from routes.maps import mapsBluePrint
 from routes.login import loginBluePrint
 from routes.register import registerBluePrint
+from routes.profile import profileBluePrint
 from database import User
 
 app = Flask(__name__)
@@ -39,6 +40,7 @@ app.register_blueprint(indexBluePrint)
 app.register_blueprint(mapsBluePrint)
 app.register_blueprint(registerBluePrint)
 app.register_blueprint(loginBluePrint)
+app.register_blueprint(profileBluePrint)
 
 if __name__ == '__main__':
     app.run(debug=True)

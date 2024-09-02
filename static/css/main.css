@@ -62,6 +62,21 @@ a:hover {
     font-size: 25px;
 }
 
+.profilepage {
+    color: #feffef;
+    font-size: 25px;
+    padding-left: 40px;
+    
+}
+
+.profilepage .form-control {
+    width: 100%;        /* Make the input take full width of its container */
+    padding: 12px 20px; /* Increase padding to make input boxes bigger */
+    font-size: 16px;    /* Increase font size */
+    border-radius: 5px; /* Optional: Add border radius for rounded corners */
+    box-sizing: border-box; /* Ensures padding doesn't affect the total width */
+}
+
 .login-page .form-control {
     width: 100%;        /* Make the input take full width of its container */
     padding: 12px 20px; /* Increase padding to make input boxes bigger */

@@ -20,14 +20,14 @@
             <p class="logo-area">
                 {% if current_user.is_authenticated %}
                     <img src="/static/images/{{ current_user.Token }}" alt="" style="width: 50px; height: auto;">
-                    {{ current_user.Username }} (0 kms)
+                    {{ current_user.Username }} ({{ current_user.TotalRanKMS }} kms)
                 {% else %}
                     DIGIRUNNER
                 {% endif %}
             </p>
             <section class="links-area">
                 {% if current_user.is_authenticated %}
-                    <a href="">ENTER RESULTS</a>
+                    <a href="{{ url_for('profile.profile', user = current_user.Username) }}">PROFILE</a>
                     <a href="{{ url_for('login.logout') }}">LOGOUT</a>
                 {% else %}
                     <a href="{{url_for('login.login')}}">LOGIN</a>

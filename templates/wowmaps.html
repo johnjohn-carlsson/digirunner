@@ -7,15 +7,38 @@
     <table class="maps-table" style="margin: 0 auto;">
         <thead>
             <tr>
-                <th>
-                    <a href="" style="color:#feffef">Eastern Kingdoms (X kms)</a>
-                </th>
-                <th>
-                    <a href="" style="color:#feffef">Kalimdor (X kms)</a>
-                </th>
-                <th>
-                    <a href="" style="color:#feffef">Outlands (X kms)</a>
-                </th>
+                <form method="POST" action="{{ url_for('maps.wow') }}">
+                    <th>
+                        <p>Eastern Kingdoms (X kms)</p>
+                        <button 
+                            type="submit" 
+                            name="selected_route" 
+                            value="Eastern Kingdoms (WoW)" 
+                            class="custom-button-1">
+                            SELECT ROUTE
+                        </button>
+                    </th>
+                    <th>
+                        <p>Kalimdor (X kms)</p>
+                        <button 
+                            type="submit" 
+                            name="selected_route" 
+                            value="Kalimdor (WoW)" 
+                            class="custom-button-1">
+                            SELECT ROUTE
+                        </button>
+                    </th>
+                    <th>
+                        <p>Outlands (X kms)</p>
+                        <button 
+                            type="submit" 
+                            name="selected_route" 
+                            value="Outlands (WoW)" 
+                            class="custom-button-1">
+                            SELECT ROUTE
+                        </button>
+                    </th>
+                </form>
             </tr>
         </thead>
         <tbody>

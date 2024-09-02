@@ -1,0 +1,37 @@
+{% extends "basetemplate.html" %}
+
+{% block content %}
+ 
+<!-- Main content -->
+<section class="main-content">
+    <section class="profilepage">
+        
+        <h2>Welcome, {{ user.Username }}</h2>
+
+        <section class="-profile-stats-section">
+            
+            <table>
+                <tr>
+                    <form method="POST" action="{{ url_for('profile.profile', user = user.Username) }}">
+                        <td>
+                            <input type="number" class="form-control" id="running-results" name="running-results" placeholder="Kilometers ran">
+                        </td>
+                        <td>
+                            <button type="submit" class="custom-button-1">Update</button>
+                        </td>
+                    </form>
+                </tr>
+                <tr>
+                    <td><strong>Active route:</strong></td>
+                    <td>{{ user.ActiveRoute }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Overall length ran:</strong></td>
+                    <td>{{ user.TotalRanKMS }} kilometers</td>
+                </tr>
+            </table>
+        </section>
+    </section>
+</section>
+
+{% endblock %}
