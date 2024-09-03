@@ -13,7 +13,8 @@ class User(db.Model, UserMixin):
     Email = db.Column(db.String(50), unique=False, nullable=False)
     Password = db.Column(db.String(400), unique=False, nullable=False)  # Increased length for hashed password
     ActiveRoute = db.Column(db.String(100), unique=False, nullable=True)
-    TotalRanKMS = db.Column(db.Integer, unique=False, nullable=True)
+    ActiveRouteMeters = db.Column(db.Integer, unique=False, nullable=True)
+    TotalRanMeters = db.Column(db.Integer, unique=False, nullable=True)
 
     def set_password(self, password):
         self.Password = generate_password_hash(password)
@@ -29,7 +30,8 @@ def save_to_db(dictionary):
     u.Email = dictionary["Email"]
     u.set_password(dictionary["Password"])
     u.ActiveRoute = "None"
-    u.TotalRanKMS = 0
+    u.ActiveRouteMeters = 0
+    u.TotalRanMeters = 0
 
     db.session.add(u)
     db.session.commit()
@@ -49,15 +51,23 @@ def update_amount_ran(username, length):
     user:User = User.query.filter_by(Username=username).first()
 
     if user:
-        user.TotalRanKMS += int(length)
+        user.TotalRanMeters += float(length) * 1000
+        user.ActiveRouteMeters += float(length) * 1000
 
         db.session.commit()
 
-def update_selected_route(username, map):
+def update_selected_route(username, map:str):
 
+    map = map.replace("_"," ").title()
     user:User = User.query.filter_by(Username=username).first()
 
     if user:
         user.ActiveRoute = map
+        user.ActiveRouteMeters = 0
 
         db.session.commit()
+
+def fetch_leaderboard() -> list:
+
+    users = User.query.order_by(User.TotalRanMeters.desc()).limit(10).all()
+    return users

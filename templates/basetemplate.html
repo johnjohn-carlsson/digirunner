@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
-    <link rel="icon" href="/static/images/digirunner_logo.png">
+    <link rel="icon" href="/static/images/logos/digirunner_logo_clear.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -15,12 +15,12 @@
         <!-- Header -->
         <header class="header">
             <a class="image-area" href="{{url_for('index.index')}}">
-                <img src="/static/images/digirunner_logo.png" alt="">
+                <img src="/static/images/logos/digirunner_logo.png" alt="">
             </a>
             <p class="logo-area">
                 {% if current_user.is_authenticated %}
-                    <img src="/static/images/{{ current_user.Token }}" alt="" style="width: 50px; height: auto;">
-                    {{ current_user.Username }} ({{ current_user.TotalRanKMS }} kms)
+                    <img src="/static/images/tokens/{{ current_user.Token }}" alt="" style="width: 50px; height: auto;">
+                    {{ current_user.Username }} ({{ current_user.TotalRanMeters/1000 }} Km)
                 {% else %}
                     DIGIRUNNER
                 {% endif %}

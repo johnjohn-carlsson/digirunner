@@ -70,15 +70,36 @@ a:hover {
     color: #feffef;
     font-size: 25px;
     padding-left: 40px;
-    
 }
 
+/* Existing styling for form-control */
 .profilepage .form-control {
-    width: 100%;        /* Make the input take full width of its container */
-    padding: 12px 20px; /* Increase padding to make input boxes bigger */
-    font-size: 16px;    /* Increase font size */
-    border-radius: 5px; /* Optional: Add border radius for rounded corners */
-    box-sizing: border-box; /* Ensures padding doesn't affect the total width */
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* New styling for positioning the tables next to each other */
+.profilepage .tables-container {
+    display: flex;
+    justify-content: space-between; /* Ensures space between the two tables */
+    align-items: flex-start;
+    width: 100%; /* Make sure the container takes full width */
+}
+
+.profilepage .-profile-stats-section,
+.profilepage .leaderboard-section {
+    width: 48%; /* Each table takes up 48% of the container's width */
+}
+
+.profilepage .leaderboard-section {
+    margin-left: 20px; /* Optional: Add space between the two sections */
+}
+
+.usermap-section img {
+    max-width: 600px;
 }
 
 .login-page .form-control {
@@ -93,9 +114,23 @@ a:hover {
     color: #feffef;
 }
 
+.content-container {
+    display: flex;
+    justify-content: space-between; /* Ensures space between the sections */
+    align-items: flex-start; /* Aligns sections at the top */
+    padding: 20px; /* Optional padding around the container */
+}
+
 .index-greeting {
     font-size: 25px;
     padding-left: 40px;
+    width: 60%; /* Adjust the width as needed */
+}
+
+.index-news {
+    font-size: 25px;
+    width: 35%; /* Adjust the width as needed */
+    padding-left: 20px; /* Optional: Space between the two sections */
 }
 
 .custom-button-1 {

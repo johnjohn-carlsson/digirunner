@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, flash, url_for
-from database import save_to_db
+from flask_login import login_user
+from database import save_to_db, fetch_user
 
 registerBluePrint = Blueprint('register', __name__)
 
@@ -8,7 +9,7 @@ def register():
 
     token_images = []
     for n in range(1,17):
-        character_image = f'/static/images/char_{n}-removebg-preview.png'
+        character_image = f'/static/images/tokens/char_{n}-removebg-preview.png'
         token_images.append(character_image)
 
     if request.method == 'POST':
@@ -32,8 +33,11 @@ def register():
         }
 
         save_to_db(user_dictionary)
+        
+        user = fetch_user(username)
+        login_user(user)
 
-        return redirect(url_for('index.index'))
+        return redirect(url_for('profile.profile', user=username))
 
     return render_template(
         'register.html',
