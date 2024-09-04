@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+import os
 
 
 db = SQLAlchemy()
@@ -66,6 +67,12 @@ def update_selected_route(username, map:str):
         user.ActiveRouteMeters = 0
 
         db.session.commit()
+
+        map_image_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'images', 'usermaps', f"{username}_updated_map.jpg")
+        
+        # Check if the file exists, and if so, delete it
+        if os.path.exists(map_image_path):
+            os.remove(map_image_path)
 
 def fetch_leaderboard() -> list:
 

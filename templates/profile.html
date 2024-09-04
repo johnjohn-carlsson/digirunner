@@ -74,8 +74,11 @@
         </div> <!-- End of tables-container -->
 
         <section class="usermap-section">
-            
-            <img src="/static/images/usermaps/{{ user.Username }}_updated_map.jpg" alt="">
+            {% if user_has_map %}
+                <img src="/static/images/usermaps/{{ user.Username }}_updated_map.jpg" alt="User's map">
+            {% else %}
+                <img src="/static/images/misc/no_usermap_img.png" alt="No user map available">
+            {% endif %}
         </section>
 
     </section>
