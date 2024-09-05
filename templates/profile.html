@@ -21,7 +21,7 @@
                         </tr>
                     </thead>
                     <tr>
-                        <form method="POST" action="{{ url_for('profile.profile', user = user.Username) }}">
+                        <form method="POST" action="{{ url_for('profile.profile', username = user.Username) }}">
                             <td>
                                 <input type="float" class="form-control" id="running-results" name="running-results" placeholder="Kilometers ran">
                             </td>

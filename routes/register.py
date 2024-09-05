@@ -37,7 +37,7 @@ def register():
         user = fetch_user(username)
         login_user(user)
 
-        return redirect(url_for('profile.profile', user=username))
+        return redirect(url_for('profile.profile', username=username))
 
     return render_template(
         'register.html',

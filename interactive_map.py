@@ -2,27 +2,81 @@ from database import *
 import os
 from PIL import Image
 
-def kalimdor_route(user: User, distance_ran: float):
-    distance_ran = float(distance_ran) * 1000  # Convert to meters
-    # Get the directory of the current script
+def run_selected_route(user:User, distance_ran:float, world_name:str, route_name:str):
+
+    # Create directories to work with
     base_dir = os.path.dirname(os.path.abspath(__file__))
+    image_dir = os.path.join(base_dir, 'static', 'images')
+    maps_dir = os.path.join(image_dir, 'worldmaps', world_name)
+    usermaps_dir = os.path.join(image_dir, 'usermaps')
+    token_image_path = os.path.join(image_dir, 'tokens', user.Token)
 
-    # Construct the path to the 'static/images' directory and the 'usermaps' subdirectory
-    static_dir = os.path.join(base_dir, 'static', 'images')
-    maps_dir = os.path.join(static_dir, 'worldmaps', 'wow')
-    usermaps_dir = os.path.join(static_dir, 'usermaps')
+    # Fetch the correct map and checkpoint data for the route
+    route_map, maps, route_length = fetch_map_info(route_name)
 
-    # Ensure the usermaps directory exists
-    os.makedirs(usermaps_dir, exist_ok=True)
+    if not route_map:
+        # Handle the case where the route is not found
+        return None
 
+    checkpoint_distance = None
+    coordinates = None
+    map_image_path = None
+
+    if distance_ran > route_length:
+        # Make the token appear at the last checkpoint for the last map
+        last_checkpoints, last_map_key = route_map[-1]  # Get the last checkpoint dictionary and map key
+        checkpoint_distance = max(last_checkpoints.keys())  # Find the highest checkpoint
+        coordinates = last_checkpoints[checkpoint_distance]
+        map_image_path = maps[last_map_key]
+    else:
+        # Iterate through route_map to find the right checkpoint based on the distance
+        for checkpoints, map_key in route_map:
+            # Check if the current distance falls within this checkpoint's range
+            if any(key <= distance_ran <= max(checkpoints.keys()) for key in checkpoints.keys()):
+                checkpoint_distance = max([key for key in checkpoints.keys() if key <= distance_ran])
+                coordinates = checkpoints[checkpoint_distance]
+                map_image_path = maps[map_key]
+                break
+
+    if coordinates:
+        x, y = map(int, coordinates.split(','))
+
+        # Load the map image based on the selected checkpoint dictionary
+        map_image = Image.open(map_image_path)
+
+        # Load the token image
+        token_image = Image.open(token_image_path).convert("RGBA")
+
+        # Resize the token image to 40x40 pixels
+        token_image = token_image.resize((40, 40), Image.LANCZOS)
+
+        # Paste the token image onto the map at the specified coordinates
+        map_image.paste(token_image, (x-20, y-20), token_image)
+
+        # Save the resulting image to the 'usermaps' directory
+        output_image_path = os.path.join(usermaps_dir, f"{user.Username}_updated_map.jpg")
+        map_image.save(output_image_path)
+
+        return output_image_path
+    else:
+        # Handle case where the distance ran does not match any checkpoint
+        return None
+
+
+def fetch_map_info(wanted_route):
+    all_routes = []
+
+    ######################################################################################
+    ################################### KALIMDOR ROUTE ###################################
+    ######################################################################################
     # Maps corresponding to each checkpoint dictionary
-    maps = {
-        "map_1": os.path.join(maps_dir, "k-1.jpg"),
-        "map_2": os.path.join(maps_dir, "k-2.jpg")
+    kalimdor_maps = {
+        "map_1": "static/images/worldmaps/wow/k-1.jpg",
+        "map_2": "static/images/worldmaps/wow/k-2.jpg"
     }
 
     # Checkpoint layouts: {"distance in meters": "XY pixel location on map"}
-    checkpoints_1 = {
+    kalimdor_checkpoints_1 = {
         0: "605,287",
         100: "622,367",
         200: "544,391",
@@ -31,7 +85,7 @@ def kalimdor_route(user: User, distance_ran: float):
         500: "340,369"
     }
 
-    checkpoints_2 = {
+    kalimdor_checkpoints_2 = {
         600: "359,291",
         700: "409,334",
         800: "406,398",
@@ -40,76 +94,25 @@ def kalimdor_route(user: User, distance_ran: float):
         1100: "416,602"
     }
 
-    # Add more checkpoint dictionaries and corresponding maps as needed
-    all_checkpoints = [
-        (checkpoints_1, "map_1"),
-        (checkpoints_2, "map_2"),
+    kalimdor_route = [
+        (kalimdor_checkpoints_1, "map_1"),
+        (kalimdor_checkpoints_2, "map_2"),
     ]
 
-    token_image_path = os.path.join(static_dir, 'tokens', user.Token)
+    total_length = 1100
 
-    # Iterate over all checkpoint dictionaries to find the correct one and map
-    checkpoint_distance = None
-    coordinates = None
-    map_image_path = None
+    all_routes.append(("kalimdor", kalimdor_route, kalimdor_maps, total_length))
 
-    for checkpoints, map_key in all_checkpoints:
-        # Check if the current distance falls within this checkpoint's range
-        if any(key <= distance_ran <= max(checkpoints.keys()) for key in checkpoints.keys()):
-            checkpoint_distance = max([key for key in checkpoints.keys() if key <= distance_ran])
-            coordinates = checkpoints[checkpoint_distance]
-            map_image_path = maps[map_key]
-            break
+    ######################################################################################
+    ############################### EASTERN KINGDOMS ROUTE ###############################
+    ######################################################################################
 
-    if coordinates:
-        x, y = map(int, coordinates.split(','))
-
-        # Load the map image based on the selected checkpoint dictionary
-        map_image = Image.open(map_image_path)
-
-        # Load the token image
-        token_image = Image.open(token_image_path).convert("RGBA")
-
-        # Resize the token image to 40x40 pixels
-        token_image = token_image.resize((40, 40), Image.LANCZOS)
-
-        # Paste the token image onto the map at the specified coordinates
-        map_image.paste(token_image, (x-20, y-20), token_image)
-
-        # Save the resulting image to the 'usermaps' directory
-        output_image_path = os.path.join(usermaps_dir, f"{user.Username}_updated_map.jpg")
-        map_image.save(output_image_path)
-
-        return output_image_path
-    else:
-        # Handle case where the distance ran does not match any checkpoint
-        return None
-
-
-
-
-
-def eastern_kingdoms_route(user: User, distance_ran: float):
-    distance_ran = float(distance_ran) * 1000  # Convert to meters
-    # Get the directory of the current script
-    base_dir = os.path.dirname(os.path.abspath(__file__))
-
-    # Construct the path to the 'static/images' directory and the 'usermaps' subdirectory
-    static_dir = os.path.join(base_dir, 'static', 'images')
-    maps_dir = os.path.join(static_dir, 'worldmaps', 'wow')
-    usermaps_dir = os.path.join(static_dir, 'usermaps')
-
-    # Ensure the usermaps directory exists
-    os.makedirs(usermaps_dir, exist_ok=True)
-
-    # Maps corresponding to each checkpoint dictionary
-    maps = {
-        "map_1": os.path.join(maps_dir, "ek-1.jpg"),
-        "map_2": os.path.join(maps_dir, "ek-2.jpg")
+    eastern_kingdoms_maps = {
+        "map_1": "static/images/worldmaps/wow/ek-1.jpg",
+        "map_2": "static/images/worldmaps/wow/ek-2.jpg"
     }
 
-    # Checkpoint layout: {"distance in meters": "XY pixel location on map"}
-    checkpoints_1 = {
+    eastern_kingdoms_checkpoints_1 = {
         0: "305,183",
         100: "399,210",
         200: "444,276",
@@ -118,54 +121,24 @@ def eastern_kingdoms_route(user: User, distance_ran: float):
         500: "495,532"
     }
 
-    checkpoints_2 = {
+    eastern_kingdoms_checkpoints_2 = {
         600: "485,91",
         700: "468,208",
         800: "436,322",
         900: "458,454"
     }
 
-    # Add more checkpoint dictionaries and corresponding maps as needed
-    all_checkpoints = [
-        (checkpoints_1, "map_1"),
-        (checkpoints_2, "map_2"),
+    eastern_kingdoms_route = [
+        (eastern_kingdoms_checkpoints_1, "map_1"),
+        (eastern_kingdoms_checkpoints_2, "map_2"),
     ]
 
-    token_image_path = os.path.join(static_dir, 'tokens', user.Token)
+    total_length = 900
 
-    # Iterate over all checkpoint dictionaries to find the correct one and map
-    checkpoint_distance = None
-    coordinates = None
-    map_image_path = None
+    all_routes.append(("eastern kingdoms", eastern_kingdoms_route, eastern_kingdoms_maps, total_length))
 
-    for checkpoints, map_key in all_checkpoints:
-        # Check if the current distance falls within this checkpoint's range
-        if any(key <= distance_ran <= max(checkpoints.keys()) for key in checkpoints.keys()):
-            checkpoint_distance = max([key for key in checkpoints.keys() if key <= distance_ran])
-            coordinates = checkpoints[checkpoint_distance]
-            map_image_path = maps[map_key]
-            break
-
-    if coordinates:
-        x, y = map(int, coordinates.split(','))
-
-        # Load the map image based on the selected checkpoint dictionary
-        map_image = Image.open(map_image_path)
-
-        # Load the token image
-        token_image = Image.open(token_image_path).convert("RGBA")
-
-        # Resize the token image to 40x40 pixels
-        token_image = token_image.resize((40, 40), Image.LANCZOS)
-
-        # Paste the token image onto the map at the specified coordinates
-        map_image.paste(token_image, (x-20, y-20), token_image)
-
-        # Save the resulting image to the 'usermaps' directory
-        output_image_path = os.path.join(usermaps_dir, f"{user.Username}_updated_map.jpg")
-        map_image.save(output_image_path)
-
-        return output_image_path
-    else:
-        # Handle case where the distance ran does not match any checkpoint
-        return None
+    # Match the requested route
+    for route_name, route, maps, route_length in all_routes:
+        if route_name == wanted_route.lower():
+            return route, maps, route_length
+    return None, None

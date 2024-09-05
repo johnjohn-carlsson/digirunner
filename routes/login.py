@@ -19,7 +19,7 @@ def login():
 
         if user and check_password_hash(user.Password, password):
             login_user(user)
-            return redirect(url_for('profile.profile', user=user.Username))  # Redirect to home page or a dashboard
+            return redirect(url_for('profile.profile', username=user.Username))  # Redirect to home page or a dashboard
         else:
             flash('Invalid username or password', 'danger')
     

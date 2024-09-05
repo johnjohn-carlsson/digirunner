@@ -15,8 +15,8 @@ def wow():
     if request.method == 'POST':
         selected_map = request.form.get('selected_route')
         
-        update_selected_route(current_user.Username, selected_map)
+        update_selected_route(current_user.Username, selected_map, "wow")
         
-        return redirect(url_for('profile.profile', user=current_user.Username))
+        return redirect(url_for('profile.profile', username=current_user.Username))
     
     return render_template("wowmaps.html")

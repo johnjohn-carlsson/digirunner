@@ -14,6 +14,7 @@ class User(db.Model, UserMixin):
     Email = db.Column(db.String(50), unique=False, nullable=False)
     Password = db.Column(db.String(400), unique=False, nullable=False)  # Increased length for hashed password
     ActiveRoute = db.Column(db.String(100), unique=False, nullable=True)
+    ActiveRouteWorld = db.Column(db.String(100), unique=False, nullable=True)
     ActiveRouteMeters = db.Column(db.Integer, unique=False, nullable=True)
     TotalRanMeters = db.Column(db.Integer, unique=False, nullable=True)
 
@@ -31,6 +32,7 @@ def save_to_db(dictionary):
     u.Email = dictionary["Email"]
     u.set_password(dictionary["Password"])
     u.ActiveRoute = "None"
+    u.ActiveRouteWorld = "None"
     u.ActiveRouteMeters = 0
     u.TotalRanMeters = 0
 
@@ -57,14 +59,15 @@ def update_amount_ran(username, length):
 
         db.session.commit()
 
-def update_selected_route(username, map:str):
+def update_selected_route(username, route:str, world):
 
-    map = map.replace("_"," ").title()
+    route = route.replace("_"," ").title()
     user:User = User.query.filter_by(Username=username).first()
 
     if user:
-        user.ActiveRoute = map
+        user.ActiveRoute = route
         user.ActiveRouteMeters = 0
+        user.ActiveRouteWorld = world
 
         db.session.commit()
 
