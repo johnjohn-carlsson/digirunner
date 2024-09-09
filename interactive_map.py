@@ -107,10 +107,10 @@ def fetch_map_info(wanted_route):
     ############################### EASTERN KINGDOMS ROUTE ###############################
     ######################################################################################
 
-    eastern_kingdoms_maps = {
-        "map_1": "static/images/worldmaps/wow/ek-1.jpg",
-        "map_2": "static/images/worldmaps/wow/ek-2.jpg"
-    }
+    eastern_kingdoms_maps = {}
+
+    for n in range(1,9):
+        eastern_kingdoms_maps[f"map_{n}"] = f"static/images/worldmaps/wow/ek-{n}.jpg"
 
     eastern_kingdoms_checkpoints_1 = {
         0: "305,183",
@@ -128,12 +128,72 @@ def fetch_map_info(wanted_route):
         900: "458,454"
     }
 
+    eastern_kingdoms_checkpoints_3 = {
+        1000: "539,84",
+        1100: "539,147",
+        1200: "530,208",
+        1300: "594,293",
+        1400: "583,390",
+        1500: "479,452",
+        1600: "369,487",
+        1700: "226,487",
+        1800: "116,441"    
+        }
+    
+    eastern_kingdoms_checkpoints_4 = {
+        1900: "625,362",
+        2000: "525,376",
+        2100: "417,391",
+        2200: "316,394",
+    }
+
+    eastern_kingdoms_checkpoints_5 = {
+        2300: "794,478",
+        2400: "732,427",
+        2500: "643,400",
+        2600: "563,441",
+        2700: "534,521"
+    }
+
+    eastern_kingdoms_checkpoints_6 = {
+        2800: "620,69",
+        2900: "543,122",
+        3000: "500,214",
+        3100: "529,314",
+        3200: "544,414",
+        3300: "560,511",
+        3400: "654,528"
+    }
+
+    eastern_kingdoms_checkpoints_7 = {
+        3500: "226,310",
+        3600: "356,329",
+        3700: "473,268",
+        3800: "598,258",
+        3900: "709,315",
+        4000: "815,371"
+    }
+
+    eastern_kingdoms_checkpoints_8 = {
+        4100: "256,312",
+        4200: "358,350",
+        4300: "454,399",
+        4400: "446,514",
+        4500: "458,612"
+    }
+
     eastern_kingdoms_route = [
         (eastern_kingdoms_checkpoints_1, "map_1"),
         (eastern_kingdoms_checkpoints_2, "map_2"),
+        (eastern_kingdoms_checkpoints_3, "map_3"),
+        (eastern_kingdoms_checkpoints_4, "map_4"),
+        (eastern_kingdoms_checkpoints_5, "map_5"),
+        (eastern_kingdoms_checkpoints_6, "map_6"),
+        (eastern_kingdoms_checkpoints_7, "map_7"),
+        (eastern_kingdoms_checkpoints_8, "map_8")
     ]
 
-    total_length = 900
+    total_length = 4500
 
     all_routes.append(("eastern kingdoms", eastern_kingdoms_route, eastern_kingdoms_maps, total_length))
 
